@@ -1,0 +1,1 @@
+("6.11" ("a4f0dac6534e76b193a89b011bc9b53a0f1e6cc3" . "899e912c1750e1d778949b398a07a67523392a26") (collects #"2htdp" #"image.rkt") (collects #"htdp" #"bsl" #"runtime.rkt") (collects #"lang" #"htdp-beginner-reader.rkt") (collects #"lang" #"htdp-beginner.rkt") (collects #"racket" #"base.rkt") (collects #"racket" #"runtime-config.rkt"))
