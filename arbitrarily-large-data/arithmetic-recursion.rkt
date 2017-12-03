@@ -1,0 +1,43 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname arithmetic-recursion) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+; N String -> List-of-strings
+; creates a list of n copies of s
+(check-expect (copier 0 "hello") '())
+(check-expect (copier 2 "hello")
+              (cons "hello" (cons "hello" '())))
+(check-error (copier -3 "hello") "Requires Natural Number as input!")
+(define (copier n s)
+  (cond
+    [(zero? n) '()]
+    [(positive? n) (cons s (copier (sub1 n) s))]
+    [else (error "Requires Natural Number as input!")]))
+
+; N -> Number
+; computes (+ n pi) without using +
+(check-within (add-to-pi 3) (+ 3 pi) 0.001)
+(define (add-to-pi n)
+  (cond
+    [(zero? n) pi]
+    [(positive? n) (add1 (add-to-pi (sub1 n)))]))
+
+; N -> Number
+; computes (+ n x) without using +
+(check-within (add 4 3) 7 .001)
+(check-within (add 4 -3) 1 .001)
+(check-within (add 4 pi) (+ 4 pi) .001)
+(define (add n x)
+  (cond
+    [(zero? n) x]
+    [(positive? n) (add1 (add (sub1 n) x))]
+    [(negative? n) (sub1 (add (add1 n) x))]))
+
+; N -> Number
+; computes (* n x) without using *
+(check-within (multiply 4 3) 12 0.001)
+(check-within (multiply 2 -3) -6 0.001)
+;(check-within (multiply 3 pi) (* 3 pi) 0.001)
+(define (multiply n x)
+  (cond
+    [(zero? n) 0]
+    [(positive? n) (add (multiply (sub1 n) x) x)]))

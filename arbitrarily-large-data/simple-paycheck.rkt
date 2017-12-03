@@ -1,0 +1,53 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname simple-paycheck) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+(define-struct work [id# name rate hours])
+; A (piece of) Work is a structure:
+;   (make-work Number String Number Number)
+; interpretation (make-work n r h) combines the name n
+; with the pay rate r and the number of hours h
+
+(define-struct paycheck [id# name amount])
+; A Paycheck is a structure:
+;    (make-paycheck Number String Number)
+; interpretation (make-paycheck n a) combines the name n
+; with the amount a it is worth
+
+; Low (short for list of work) is one of:
+; - '()
+; - (cons Work Low)
+; interpretation an instance of Low represents the
+; hours worked for a number of employees
+
+(define low0 (cons (make-work 0 "Robby" 11.95 39) '()))
+(define low1 (cons (make-work 1 "Matthew" 12.95 45)
+                   (cons (make-work 0 "Robby" 11.95 39)
+                         '())))
+
+; Work -> Number
+; computtes the wage for the given work record w
+(define (wage w)
+  (* (work-rate w) (work-hours w)))
+
+; Low -> List-of-Numbers
+; computes the weekly wages for the given records
+(check-expect (wage* low0)
+              (cons (* 11.95 39) '()))
+(define (wage* an-low)
+  (cond
+    [(empty? an-low) '()]
+    [(cons? an-low) (cons (wage (first an-low))
+                          (wage* (rest an-low)))]))
+
+; Work -> Paycheck
+; converts work structure to paycheck structure
+(define (cut-check w)
+  (make-paycheck (work-id# w) (work-name w) (* (work-rate w) (work-hours w))))
+
+
+; Low -> List-of-paychecks
+; creates paychecks for a given Low
+(define (cut-check* an-low)
+  (cond
+    [(empty? an-low) '()]
+    [else (cons (cut-check (first an-low)) (cut-check* (rest an-low)))]))

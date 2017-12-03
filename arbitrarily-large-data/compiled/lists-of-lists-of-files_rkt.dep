@@ -1,0 +1,1 @@
+("6.11" ("5dfcd40d20484ec28efd248a251c0b0216231eb2" . "29d838d7f4474bd2bf8da8eb4853d891a9681cb2") (collects #"2htdp" #"batch-io.rkt") (collects #"htdp" #"bsl" #"runtime.rkt") (collects #"lang" #"htdp-beginner-reader.rkt") (collects #"lang" #"htdp-beginner.rkt") (collects #"racket" #"base.rkt") (collects #"racket" #"runtime-config.rkt"))

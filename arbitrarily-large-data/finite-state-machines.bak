@@ -1,0 +1,72 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-abbr-reader.ss" "lang")((modname finite-state-machines) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp") (lib "batch-io.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t quasiquote mixed-fraction #f #t none #f ((lib "image.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp") (lib "batch-io.rkt" "teachpack" "2htdp")) #f)))
+; An FSM is one of:
+; - '()
+; - (cons Transition FSM)
+
+(define-struct transition (current next))
+; A Transition is a structure:
+;  (make-transition FSM-State FSM-State)
+
+; FSM-State is a Color.
+
+; interpretation An FSM represents the transitions that
+; a finite state machine can take from one state to another
+; in reaction to keystrokes
+
+; A SimulationState.v1 is an FSM-State
+
+(define-struct fs (fsm current))
+; A SimulationState.v2 is a structure:
+;  (make-fs FSM FSM-State)
+
+(define (state=? state1 state2)
+  (string=? state1 state2))
+
+(define fsm-traffic
+  (list (make-transition "red" "green")
+        (make-transition "green" "yellow")
+        (make-transition "yellow" "red")))
+
+(define bw-machine
+  (list (make-transition "black" (make-transition "white" "black"))))
+
+; SimulationState -> Image
+; renders a world state as an image
+(define (render-state.v1 s)
+  empty-image)
+
+; SimulationState.v1 KeyEvent -> SimulationState.v1
+; finds the next state from ke and cs
+(define (find-next-state.v1 cs ke)
+  cs)
+
+; SimulationState.v2 -> Image
+; renders current world state as a colored square
+
+(check-expect (state-as-colored-square (make-fs fsm-traffic "red"))
+              (square 100 "solid" "red"))
+
+(define (state-as-colored-square an-fsm)
+  (square 100 "solid" (fs-current an-fsm)))
+
+
+; SimulationState.v2 KeyEvent -> SimulationState.v2
+; finds the next state from ke and cs
+(define (find-next-state an-fsm current))
+
+
+; FSM -> ???
+; match the keys pressed with the given FSM
+(define (simulate.v1 an-fsm)
+  (big-bang initial-state
+    (to-draw render-state.v1)
+    (on-key find-next-state.v1)))
+
+; FSM FSM-State -> SimulationState.v2
+; match the keys pressed with the given FSM
+(define (simulate.v2 an-fsm s0)
+  (big-bang (make-fs an-fsm s0)
+    (to-draw state-as-colored-square)
+    (on-key find-next-state)))

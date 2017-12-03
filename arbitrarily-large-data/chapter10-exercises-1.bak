@@ -1,0 +1,54 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname chapter10-exercises-1) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+(define WAGE 14)
+
+; List-of-numbers -> List-of-numbers
+; computes the weekly wages for all given weekly hours
+(define (wage* whrs)
+  (cond
+    [(empty? whrs) '()]
+    [(> whrs OVER) (error "An employee has over reported time worked.")]
+    [else (cons (wage (first whrs)) (wage* (rest whrs)))]))
+
+; Number -> Number
+; computes the wage for h hours of work
+(define (wage h)
+  (* WAGE h))
+
+; List-of-Fahrenheit -> List-of-Celsius
+; converts a given list of Fahrenheit temperatures to celsius
+(define (convertFC lof)
+  (cond
+    [(empty? lof) '()]
+    [else (cons (* (- (first lof) 32) 5/9) (convertFC (rest lof)))]))
+
+; List-of-Dollars -> List-of-Euros
+; converts a given list of Dollars into Euros
+(define (convert-dollar d)
+  (cond
+    [(empty? d) '()]
+    [else (cons (* (first d) 0.86) (convert-dollar (rest d)))]))
+
+; List-of-Dollars Rate -> List-of-Currency
+; converts a list of dollar amounts into another currency at the given rate
+(define (convert-dollar* d r)
+  (cond
+    [(empty? d) '()]
+    [else (cons (* (first d) r) (convert-dollar* (rest d)))]))
+
+; List-of-Strings -> List-of-Strings
+; checks a List-of-Strings for "robot", replacing it with "r2-d2"
+(define (subst-robot toys)
+  (cond
+    [(empty? toys) '()]
+    [(string=? (first toys) "robot") (cons "r2-d2" (subst-robot toys))]
+    [else (cons (first toys) (subst-robot (rest toys)))]))
+
+; List-of-Strings String String -> List-of-Strings
+; checks a List-of-Strings for String1 replacing it with String2 in the new list
+(define (substitute los old new)
+  (cond
+    [(empty? los) '()]
+    [(string=? (first los) old) (cons new (substitute (rest los)))]
+    [else (cons (first los) (substitute (rest los)))]))
