@@ -9,3 +9,6 @@
 *.bak~
 *.bak#*
 .#*.bak
+*.bak
+
+**/compiled/**
