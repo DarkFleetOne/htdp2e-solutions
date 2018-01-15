@@ -140,7 +140,7 @@
 (check-expect (average-forest-age ff2 2017) 78)
 (check-expect (average-forest-age ff3 2017) 81.25)
 
-(check-expect (map-average ff1 2017) 91)
+(check-expect (average-forest-age ff1 2017) 91)
 
 (define (average-forest-age forest year)
   (cond
@@ -148,4 +148,3 @@
     [else (/ (+ (average-age (first forest) year)
                 (average-forest-age (rest forest) year))
              2)]))
-
